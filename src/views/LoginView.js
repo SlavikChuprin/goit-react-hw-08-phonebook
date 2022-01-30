@@ -49,6 +49,7 @@ export default function LoginView() {
             value={email}
             onChange={handleChange}
             autoComplete="on"
+            autoFocus
             required
             pattern="\S+@[a-z]+.[a-z]+"
           />

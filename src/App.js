@@ -1,12 +1,16 @@
 import './App.css';
-import { useEffect } from 'react';
+import { useEffect, Suspense, lazy } from 'react';
 import { useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import Contacts from './components/Contacts';
-import LoginView from './views/LoginView';
-import RegisterView from './views/RegisterView';
 import AppBar from './components/AppBar';
 import { authOperations } from './redux/auth';
+import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
+import Loader from 'react-loader-spinner';
+
+const LoginView = lazy(() => import('./views/LoginView'));
+const RegisterView = lazy(() => import('./views/RegisterView'));
+const Contacts = lazy(() => import('./components/Contacts'));
 
 function App() {
   const dispatch = useDispatch();
@@ -19,9 +23,18 @@ function App() {
     <div className="App">
       <AppBar />
       <Switch>
-        <Route path="/" exact component={LoginView} />
-        <Route path="/register" exact component={RegisterView} />
-        <Route path="/contacts" exact component={Contacts} />
+        <Suspense fallback={<Loader type="Circles" color="lightblue" />}>
+          <PublicRoute path="/" exact restricted redirectTo="/contacts">
+            <LoginView />
+          </PublicRoute>
+          <PublicRoute path="/registration" restricted redirectTo="/contacts">
+            <RegisterView />
+          </PublicRoute>
+
+          <PrivateRoute path="/contacts" exact redirectTo="/">
+            <Contacts />
+          </PrivateRoute>
+        </Suspense>
       </Switch>
     </div>
   );

@@ -21,30 +21,33 @@ function Navigation() {
 
   return (
     <nav>
-      {/* {!isLoggedIn ? (
-        <> */}
-      <NavLink to="/" exact style={styles.link} activeStyle={styles.activeLink}>
-        Logi in
-      </NavLink>
-      <NavLink
-        to="/register"
-        exact
-        style={styles.link}
-        activeStyle={styles.activeLink}
-      >
-        Registration
-      </NavLink>
-      {/* </>
-      ) : ( */}
-      <NavLink
-        to="/contacts"
-        exact
-        style={styles.link}
-        activeStyle={styles.activeLink}
-      >
-        Phonebook
-      </NavLink>
-      {/* )} */}
+      {!isLoggedIn ? (
+        <>
+          <NavLink
+            to="/"
+            exact
+            style={styles.link}
+            activeStyle={styles.activeLink}
+          >
+            Logi in
+          </NavLink>
+          <NavLink
+            to="/registration"
+            style={styles.link}
+            activeStyle={styles.activeLink}
+          >
+            Registration
+          </NavLink>
+        </>
+      ) : (
+        <NavLink
+          to="/contacts"
+          style={styles.link}
+          activeStyle={styles.activeLink}
+        >
+          Phonebook
+        </NavLink>
+      )}
     </nav>
   );
 }
