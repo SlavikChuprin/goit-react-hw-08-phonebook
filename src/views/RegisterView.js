@@ -20,7 +20,6 @@ export default function RegisterView() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const isLoadingData = useSelector(authSelectors.getLoading);
-
   const handleChange = ({ target: { name, value } }) => {
     switch (name) {
       case 'name':

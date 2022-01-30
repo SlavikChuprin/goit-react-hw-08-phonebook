@@ -1,14 +1,16 @@
 import s from './ContactForm.module.css';
 import { useState } from 'react';
-import { useCreateContactMutation } from '../../redux/contacts/contactsSlice';
-import { useFetchContactsQuery } from '../../redux/contacts/contactsSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { contactsSelectors } from '../../redux/contacts';
+import { contactsOperations } from '../../redux/contacts';
 import Loader from 'react-loader-spinner';
 
 function ContactForm() {
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const [createContact, { isLoading: isUpdating }] = useCreateContactMutation();
-  const { data: contacts } = useFetchContactsQuery();
+  const contacts = useSelector(contactsSelectors.getAllContacts);
+  const isLoading = useSelector(contactsSelectors.getLoading);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -31,7 +33,7 @@ function ContactForm() {
     e.preventDefault();
     contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase())
       ? alert(`${name} is already in contacts`)
-      : createContact(name, number);
+      : dispatch(contactsOperations.addContact(name, number));
 
     reset();
   };
@@ -69,8 +71,8 @@ function ContactForm() {
           required
         />
       </label>
-      <button type="submit" className={s.btn} disabled={isUpdating}>
-        {isUpdating ? (
+      <button type="submit" className={s.btn} disabled={isLoading}>
+        {isLoading ? (
           <Loader type="Circles" color="lightblue" height={20} width={100} />
         ) : (
           'Add contact'

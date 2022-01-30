@@ -6,9 +6,9 @@ function Contacts() {
   return (
     <div className="App">
       <div className="Contacts">
-        <h1>Phonebook</h1>
+        <h1>PHONEBOOK</h1>
         <ContactForm />
-        <h2> Contacts</h2>
+        <h2> CONTACTS</h2>
         <Filter />
         <ContactList />
       </div>

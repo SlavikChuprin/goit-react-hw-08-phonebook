@@ -2,42 +2,22 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ContactListItem from '../ContactListItem';
 import s from './ContactList.module.css';
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useFetchContactsQuery } from '../../redux/contacts/contactsSlice';
-import { filterValue } from '../../redux/contacts/selectors';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { contactsSelectors, contactsOperations } from '../../redux/contacts';
 import Loader from 'react-loader-spinner';
 
 const ContactList = () => {
-  const { data: contacts, isFetching } = useFetchContactsQuery();
-  const [filterContacts, setContacts] = useState([]);
-  const value = useSelector(filterValue);
-
-  useEffect(() => {
-    try {
-      setContacts(
-        contacts.filter(({ name }) =>
-          name.toLowerCase().includes(value.toLowerCase()),
-        ),
-      );
-    } catch (error) {
-      return error;
-    }
-  }, [contacts, value]);
+  const dispatch = useDispatch();
+  useEffect(() => dispatch(contactsOperations.fetchContacts()), [dispatch]);
+  const contacts = useSelector(contactsSelectors.getVisibleContacts);
+  const isLoading = useSelector(contactsSelectors.getLoading);
 
   return (
     <ul className={s.contactList}>
-      {isFetching && (
-        <Loader
-          type="Circles"
-          color="lightblue"
-          height={80}
-          width={80}
-          timeout={0}
-        />
-      )}
-      {filterContacts &&
-        filterContacts.map(contact => (
+      {isLoading && <Loader type="Circles" color="lightblue" />}
+      {contacts &&
+        contacts.map(contact => (
           <ContactListItem key={contact.id} contact={contact} />
         ))}
     </ul>
