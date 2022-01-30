@@ -16,7 +16,7 @@ const Contacts = lazy(() => import('./components/Contacts'));
 function App() {
   const dispatch = useDispatch();
   const isFetchingCurrentUser = useSelector(authSelectors.getIsFetchingCurrent);
-  
+
   useEffect(() => {
     dispatch(authOperations.fetchCurrentUser());
   }, [dispatch]);
@@ -26,7 +26,6 @@ function App() {
       {!isFetchingCurrentUser && (
         <Container>
           <AppBar />
-
           <Switch>
             <Suspense fallback={<Loader type="Circles" color="lightblue" />}>
               <PublicRoute path="/" exact restricted redirectTo="/contacts">
