@@ -28,18 +28,24 @@ function App() {
           <AppBar />
           <Switch>
             <Suspense fallback={<Loader type="Circles" color="lightblue" />}>
-              <PublicRoute path="/" exact restricted redirectTo="/contacts">
+              <PublicRoute
+                path="/login"
+                exact
+                restricted
+                redirectTo="/contacts"
+              >
                 <LoginView />
               </PublicRoute>
               <PublicRoute
                 path="/registration"
+                exat
                 restricted
                 redirectTo="/contacts"
               >
                 <RegisterView />
               </PublicRoute>
 
-              <PrivateRoute path="/contacts" exact>
+              <PrivateRoute path="/contacts" exact redirectTo="/login">
                 <Contacts />
               </PrivateRoute>
             </Suspense>

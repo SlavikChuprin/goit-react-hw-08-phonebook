@@ -56,6 +56,7 @@ export default function RegisterView() {
               value={name}
               autoFocus
               autoComplete="on"
+              placeholder="введите имя"
               required
               onChange={handleChange}
             />
@@ -67,6 +68,7 @@ export default function RegisterView() {
               type="email"
               name="email"
               required
+              placeholder="введите вашу почту"
               pattern="\S+@[a-z]+.[a-z]+"
               value={email}
               onChange={handleChange}
@@ -81,6 +83,7 @@ export default function RegisterView() {
               name="password"
               value={password}
               required
+              placeholder="введите пароль от 7 до 12 символов"
               pattern="[A-Za-z0-9_]{7,12}"
               title="пароль состоит минимум из 7 знаков, максимум 12"
               onChange={handleChange}
